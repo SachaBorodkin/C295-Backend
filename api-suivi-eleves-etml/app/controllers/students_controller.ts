@@ -5,7 +5,9 @@ export default class StudentsController {
    * Display a list of resource
    */
 async index({}: HttpContext) {
-return Student.query().orderBy('name').orderBy('firstname')
+const students = await Student.query().orderBy('name').orderBy('firstname')
+console.log(students.length)
+return students
 }
 
   /**
