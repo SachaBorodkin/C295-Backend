@@ -8,9 +8,18 @@
 */
 
 import router from '@adonisjs/core/services/router'
-
+import StudentsController from '#controllers/students_controller'
 router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
+return 'API is working!'
 })
+router.resource('students', StudentsController).apiOnly()
+/* est équivalent à :
+router.group(() => {
+router.get('', [StudentsController, 'index'])
+router.get(':id', [StudentsController, 'show'])
+router.post('', [StudentsController, 'store'])
+router.put(':id', [StudentsController, 'update'])
+router.patch(':id', [StudentsController, 'update'])
+router.delete(':id', [StudentsController, 'destroy'])
+}).prefix('students')
+*/
