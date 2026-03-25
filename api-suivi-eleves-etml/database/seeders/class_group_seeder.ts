@@ -1,4 +1,4 @@
-import ClassGroup from '#models/classgroup'
+import ClassGroup from '#models/class_group'
 import Teacher from '#models/teacher'
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 export default class ClassGroupSeeder extends BaseSeeder {

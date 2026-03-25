@@ -1,5 +1,5 @@
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import ClassGroup from './classgroup.js'
+import ClassGroup from './class_group.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 export default class Teacher extends BaseModel {
   @column({ isPrimary: true })
