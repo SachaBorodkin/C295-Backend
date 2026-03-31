@@ -1,16 +1,17 @@
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany, belongsTo } from '@adonisjs/lucid/orm'
+import type { HasMany, BelongsTo } from '@adonisjs/lucid/types/relations'
 import ClassGroup from './class_group.js'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import User from './user.js'
+import Comment from './comment.js'
+
 export default class Teacher extends BaseModel {
-  @column({ isPrimary: true })
-  declare id: number
-  @column()
-  declare name: string
-  @column()
-  declare firstname: string
-  @column()
-  declare email: string
-  // Relation : enseignant → classes
-  @hasMany(() => ClassGroup)
-  declare classGroups: HasMany<typeof ClassGroup>
+  @column({ isPrimary: true }) declare id: number
+  @column() declare name: string
+  @column() declare firstname: string
+  @column() declare email: string
+  @column() declare userId: number
+
+  @belongsTo(() => User) declare user: BelongsTo<typeof User>
+  @hasMany(() => ClassGroup) declare classGroups: HasMany<typeof ClassGroup>
+  @hasMany(() => Comment) declare comments: HasMany<typeof Comment>
 }

@@ -3,8 +3,8 @@ import Student from '#models/student'
 
 export const StudentFactory = Factory.define(Student, async ({ faker }) => {
   return {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email(),
+    name: faker.person.lastName(),
+    firstname: faker.person.firstName(),
+    classGroupId: 1,
   }
 }).build()

@@ -1,5 +1,6 @@
 import factory from '@adonisjs/lucid/factories'
 import Teacher from '#models/teacher'
+import { UserFactory } from '#database/factories/user_factory'
 
 export const TeacherFactory = factory
   .define(Teacher, ({ faker }) => {
@@ -9,4 +10,5 @@ export const TeacherFactory = factory
       email: faker.internet.email(),
     }
   })
+  .relation('user', () => UserFactory)
   .build()

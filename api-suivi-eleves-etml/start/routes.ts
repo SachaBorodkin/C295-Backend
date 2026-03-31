@@ -1,32 +1,23 @@
-/*
-|--------------------------------------------------------------------------
-| Routes file
-|--------------------------------------------------------------------------
-|
-| The routes file is used for defining the HTTP routes.
-|
-*/
-
 import router from '@adonisjs/core/services/router'
+import { middleware } from '#start/kernel'
+
+const UsersController = () => import('#controllers/users_controller')
 const StudentsController = () => import('#controllers/students_controller')
-const TeachersController = () => import('#controllers/teachers_controller')
-const ClassGroupsController = () => import('#controllers/class_groups_controller')
-router.get('/', async () => {
-  return 'API is working!'
-})
-router.resource('students', StudentsController).apiOnly()
+const CommentsController = () => import('#controllers/comments_controller')
+
+router.post('register', [UsersController, 'register'])
+router.post('login', [UsersController, 'login'])
+
 router
   .group(() => {
-    router.get('students', [StudentsController, 'index']) // List all
-    router.get('students/:id', [StudentsController, 'show']) // Get one
-    router.post('students', [StudentsController, 'store']) // Create
-    router.put('students/:id', [StudentsController, 'update']) // Update
-    router.delete('students/:id', [StudentsController, 'destroy']) // Delete
+    router.resource('students', StudentsController).apiOnly()
+
+    // Nested routes for comments belonging to students
+    router.get('students/:student_id/comments', [CommentsController, 'index'])
+    router.post('students/:student_id/comments', [CommentsController, 'store'])
+    router.put('students/:student_id/comments/:id', [CommentsController, 'update'])
+    router.delete('students/:student_id/comments/:id', [CommentsController, 'destroy'])
+
+    router.post('logout', [UsersController, 'logout'])
   })
-  .prefix('/api')
-router
-  .group(() => {
-    router.resource('teachers', TeachersController)
-    router.resource('class-groups', ClassGroupsController)
-  })
-  .prefix('/api')
+  .use(middleware.auth())

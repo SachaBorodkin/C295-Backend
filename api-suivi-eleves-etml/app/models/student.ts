@@ -1,28 +1,14 @@
-import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import ClassGroup from './class_group.js'
+import Comment from './comment.js'
 
 export default class Student extends BaseModel {
-  @column({ isPrimary: true })
-  declare id: number
+  @column({ isPrimary: true }) declare id: number
+  @column() declare name: string
+  @column() declare firstname: string
+  @column() declare classGroupId: number
 
-  @column()
-  declare firstName: string
-
-  @column()
-  declare lastName: string
-
-  @column()
-  declare email: string
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
-
-  @column()
-declare classGroupId: number | null
-
-@belongsTo(() => ClassGroup)
-declare classGroup: BelongsTo<typeof ClassGroup>
+  @belongsTo(() => ClassGroup) declare classGroup: BelongsTo<typeof ClassGroup>
+  @hasMany(() => Comment) declare comments: HasMany<typeof Comment>
 }

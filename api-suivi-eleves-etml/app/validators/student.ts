@@ -3,17 +3,16 @@ import vine from '@vinejs/vine'
 
 export const createStudentValidator = vine.compile(
   vine.object({
-    firstName: vine.string().trim().minLength(2),
-    lastName: vine.string().trim().minLength(2),
-    email: vine.string().email(),
-    // Add other fields from your migration here (e.g., class, grade)
+    name: vine.string().trim().minLength(2),
+    firstname: vine.string().trim().minLength(2),
+    classGroupId: vine.number().positive(),
   })
 )
 
 export const updateStudentValidator = vine.compile(
   vine.object({
-    firstName: vine.string().trim().minLength(2).optional(),
-    lastName: vine.string().trim().minLength(2).optional(),
-    email: vine.string().email().optional(),
+    name: vine.string().trim().minLength(2).optional(),
+    firstname: vine.string().trim().minLength(2).optional(),
+    classGroupId: vine.number().positive().optional(),
   })
 )
