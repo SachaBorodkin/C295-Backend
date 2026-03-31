@@ -19,4 +19,10 @@ export default class Student extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @column()
+declare classGroupId: number | null
+
+@belongsTo(() => ClassGroup)
+declare classGroup: BelongsTo<typeof ClassGroup>
 }

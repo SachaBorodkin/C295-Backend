@@ -9,6 +9,7 @@ table.string('name').notNullable()
 table.string('firstname').notNullable()
 table.timestamp('created_at')
 table.timestamp('updated_at')
+table.integer('class_group_id').unsigned().references('id').inTable('class_groups')
 })
 }
 async down() {

@@ -1,34 +1,38 @@
-// app/controllers/class_groups_controller.ts
 import type { HttpContext } from '@adonisjs/core/http'
 import ClassGroup from '#models/class_group'
 import { classGroupValidator } from '#validators/class_group'
 
 export default class ClassGroupsController {
-  async index({}: HttpContext) {
-    // Charge toutes les classes avec leur enseignant triées par nom
-    return await ClassGroup.query().preload('teacher').orderBy('name', 'asc')
+  async index({ response }: HttpContext) {
+    // Fetches all classes with their assigned teacher, ordered by name
+    const classGroups = await ClassGroup.query().preload('teacher').orderBy('name', 'asc')
+    return response.ok(classGroups)
   }
 
   async store({ request, response }: HttpContext) {
-    // Valide les données (nom et teacherId optionnel)
     const payload = await request.validateUsing(classGroupValidator)
     const classGroup = await ClassGroup.create(payload)
     return response.created(classGroup)
   }
 
-  async show({ params }: HttpContext) {
-    // Récupère une classe spécifique avec son enseignant
-    return await ClassGroup.query().preload('teacher').where('id', params.id).firstOrFail()
+  async show({ params, response }: HttpContext) {
+    // Preloads the teacher for a specific class view
+    const classGroup = await ClassGroup.query()
+      .preload('teacher')
+      .where('id', params.id)
+      .firstOrFail()
+    return response.ok(classGroup)
   }
 
-  async update({ params, request }: HttpContext) {
-    // EXERCICE : Mise à jour d'une classe existante
+  async update({ params, request, response }: HttpContext) {
+    // EXERCICE SOLUTION: Implementation of the update logic
     const classGroup = await ClassGroup.findOrFail(params.id)
     const payload = await request.validateUsing(classGroupValidator)
 
     classGroup.merge(payload)
     await classGroup.save()
-    return classGroup
+
+    return response.ok(classGroup)
   }
 
   async destroy({ params, response }: HttpContext) {
